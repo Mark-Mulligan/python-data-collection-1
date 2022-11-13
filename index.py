@@ -2,9 +2,12 @@ import requests
 from bs4 import BeautifulSoup
 
 
-def get_title(card):
+def get_title_and_composer(card):
     title_info = card.find('div', class_='catalog-product-title')
-    return title_info.a.contents[0]
+    composer_info = title_info.find('a', class_='catalog-mfr-name')
+    title = title_info.a.contents[0]
+    composer = composer_info.contents[0]
+    return {'title': title, 'composer': composer}
 
 page = 1
 mallet_solo_data = []
@@ -20,8 +23,8 @@ while True:
     cards = soup.findAll('div', class_="catalog-list2")
 
     for card in cards:
-        title = get_title(card)
-        mallet_solo_data.append({"title": title})
+        title_data = get_title_and_composer(card)
+        mallet_solo_data.append({"title": title_data['title'], "composer": title_data['composer']})
 
     page += 1
 
