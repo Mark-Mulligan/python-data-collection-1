@@ -1,5 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
+import pprint
+
+pp = pprint.PrettyPrinter(indent=4)
 
 # 4 Mallet query
 # https://www.tapspace.com/index.php?p=catalog&parent=114&pg=2&ajax=true&mode=catalog&selected_filters=,filter_333_42&CatalogSetSortBy=priority&action_relaod=1
@@ -19,6 +22,20 @@ def get_title_and_composer(card):
     title = title_info.a.contents[0]
     composer = composer_info.contents[0]
     return {'title': title, 'composer': composer}
+
+def get_description(card):
+    description_info = card.find('div', class_='catalog-overview')
+    description = description_info.contents[0]
+    return description
+
+def get_duration(card):
+    solo_info = card.find('div', class_='catalog-fields').contents
+
+    for item in solo_info:
+        if item
+
+    return solo_info
+
 
 
 def parse_mallet_solos_data(data_list: list, url_function, sub_category: str):
@@ -45,8 +62,11 @@ def parse_mallet_solos_data(data_list: list, url_function, sub_category: str):
 
         for card in cards:
             title_data = get_title_and_composer(card)
+            description_data = get_description(card)
+            duration = get_duration(card)
+            pp.pprint(duration)
             data_list.append(
-            {"title": title_data['title'], "composer": title_data['composer'], 'sub_category': sub_category})
+            {"title": title_data['title'], "composer": title_data['composer'], 'sub_category': sub_category, 'description': description_data})
 
         page += 1
     
@@ -54,8 +74,8 @@ def parse_mallet_solos_data(data_list: list, url_function, sub_category: str):
 
 
 mallet_solo_data = []
-parse_mallet_solos_data(mallet_solo_data, four_mallet_data_query, 'four_mallets')
+# parse_mallet_solos_data(mallet_solo_data, four_mallet_data_query, 'four_mallets')
 parse_mallet_solos_data(mallet_solo_data, two_mallet_data_query, 'two_mallets')
 
-print(mallet_solo_data)
-print(len(mallet_solo_data))
+# pp.pprint(mallet_solo_data)
+# print(len(mallet_solo_data))
