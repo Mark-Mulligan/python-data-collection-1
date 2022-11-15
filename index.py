@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import pprint
+import re
 
 pp = pprint.PrettyPrinter(indent=4)
 
@@ -30,11 +31,15 @@ def get_description(card):
 
 def get_duration(card):
     solo_info = card.find('div', class_='catalog-fields').contents
+    duration = ''
+    
+    for index, item in enumerate(solo_info):
+        match = re.search('duration', str(item), re.IGNORECASE)
+        if match:
+            duration = solo_info[index + 1]
+        
 
-    for item in solo_info:
-        if item
-
-    return solo_info
+    return duration
 
 
 
@@ -64,7 +69,8 @@ def parse_mallet_solos_data(data_list: list, url_function, sub_category: str):
             title_data = get_title_and_composer(card)
             description_data = get_description(card)
             duration = get_duration(card)
-            pp.pprint(duration)
+            print(duration)
+            # pp.pprint(duration)
             data_list.append(
             {"title": title_data['title'], "composer": title_data['composer'], 'sub_category': sub_category, 'description': description_data})
 
