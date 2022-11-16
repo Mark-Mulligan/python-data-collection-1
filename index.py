@@ -34,7 +34,7 @@ def get_duration(card):
     duration = ''
     
     for index, item in enumerate(solo_info):
-        match = re.search('duration', str(item), re.IGNORECASE)
+        match = re.search('duration', str(item), re.IGNORECASE)  # type: ignore
         if match:
             duration = solo_info[index + 1]
         
@@ -78,10 +78,10 @@ def parse_mallet_solos_data(data_list: list, url_function, sub_category: str):
     
     return data_list
 
+if __name__ == '__main__':
+    mallet_solo_data = [] 
+    # parse_mallet_solos_data(mallet_solo_data, four_mallet_data_query, 'four_mallets')
+    parse_mallet_solos_data(mallet_solo_data, two_mallet_data_query, 'two_mallets')
 
-mallet_solo_data = []
-# parse_mallet_solos_data(mallet_solo_data, four_mallet_data_query, 'four_mallets')
-parse_mallet_solos_data(mallet_solo_data, two_mallet_data_query, 'two_mallets')
-
-# pp.pprint(mallet_solo_data)
-# print(len(mallet_solo_data))
+    # pp.pprint(mallet_solo_data)
+    # print(len(mallet_solo_data))
